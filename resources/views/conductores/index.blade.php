@@ -106,7 +106,7 @@
                                 <td>
                                     <div class="avatar-cell">
                                         @if($conductor->foto_perfil)
-                                            <img src="{{ Storage::url($conductor->foto_perfil) }}" alt="{{ $conductor->nombre }}" />
+                                            <img src="{{ Storage::url($conductor->foto_perfil) }}" alt="Foto de perfil">
                                         @else
                                             <span>Sin foto</span>
                                         @endif
@@ -160,12 +160,11 @@
                                 <div class="photo-preview" id="new-photo-preview">
                                     <span>Arrastra la imagen aquí o haz click</span>
                                 </div>
-                                <video id="camera-video" autoplay playsinline style="display:none; width:100%; height:100%; object-fit:cover; border-radius:1.5rem;"></video>
+                                <video id="camera-video" autoplay playsinline style="display:none; position:absolute; inset:0; width:100%; height:100%; object-fit:cover; border-radius:1.5rem; z-index:10;"></video>
                                 <input id="new-foto_perfil" name="foto_perfil" type="file" accept="image/*" class="photo-input sr-only" />
                             </label>
                             <button type="button" id="start-camera" class="button-secondary" style="margin-top:0.75rem; width:100%;">Tomar foto con cámara</button>
                             <div id="camera-panel" class="camera-panel" style="display:none;">
-                                <video id="camera-video" autoplay playsinline class="camera-video"></video>
                                 <div class="camera-controls">
                                     <span id="camera-countdown" class="countdown-text"></span>
                                     <div class="camera-button-row">
@@ -461,7 +460,7 @@
         .filter-form label { margin-bottom:0.35rem; color:#334155; display:block; font-size:0.95rem; }
         .filter-input { width:100%; height:3rem; padding:0 0.85rem; border:1px solid #cbd5e1; border-radius:1rem; background:#fff; color:#0f172a; }
         .filter-button { min-width:110px; padding:0 1rem; height:3rem; align-self:center; }
-        .photo-dropzone { min-height: 280px; max-width: 100%; border: 2px dashed #1680A7; border-radius: 1.5rem; display:grid; place-items:center; position:relative; cursor:pointer; background: #f8fbff; }
+        .photo-dropzone { height: 280px; max-width: 100%; border: 2px dashed #1680A7; border-radius: 1.5rem; display:grid; place-items:center; position:relative; cursor:pointer; background: #f8fbff; overflow: hidden;}
         .photo-dropzone.dragover { background: rgba(22,128,167,0.08); }
         .photo-preview { width: 100%; height: 100%; display:grid; place-items:center; padding: 1rem; text-align:center; color:#334155; }
         .photo-preview img { max-width: 100%; max-height: 100%; object-fit:contain; border-radius: 1rem; }
@@ -605,15 +604,28 @@
                 });
             }
 
-            function showNewPhoto(src) {
+           function showNewPhoto(src) {
                 newPhotoPreview.innerHTML = '<img src="' + src + '" alt="Foto" />';
+                newPhotoPreview.style.display = 'grid'; // Asegurar que la imagen sea visible
+                
                 const icon = document.querySelector('#new-dropzone svg');
                 if (icon) {
                     icon.style.display = 'none';
                 }
             }
+            
             function resetNewPhoto() {
-                newPhotoPreview.innerHTML = '<span>Arrastra la imagen aquí o haz click</span>';
+                // Restaurar el texto por defecto
+                if (newPhotoPreview) {
+                    newPhotoPreview.innerHTML = '<span>Arrastra la imagen aquí o haz click</span>';
+                    newPhotoPreview.style.display = 'grid';
+                }
+                
+                // Volver a mostrar el ícono
+                const icon = document.getElementById('dropzone-icon');
+                if (icon) {
+                    icon.style.display = 'block';
+                }
             }
 
             function licenseRank(value) {
@@ -717,7 +729,17 @@
 
             function showCameraPanel() {
                 if (!cameraPanel) return;
-                cameraPanel.style.display = 'grid';
+                cameraPanel.style.display = 'block'; // Muestra solo los botones abajo
+
+                // Ocultar ícono y texto del dropzone
+                const icon = document.getElementById('dropzone-icon');
+                if (icon) icon.style.display = 'none';
+                if (newPhotoPreview) newPhotoPreview.style.display = 'none';
+
+                // Mostrar el video sobre el dropzone
+                if (cameraVideo) {
+                    cameraVideo.style.display = 'block';
+                }
             }
 
             function hideCameraPanel() {
@@ -725,6 +747,16 @@
                 cameraPanel.style.display = 'none';
                 cameraCountdown.textContent = '';
                 acceptButton.disabled = true;
+
+                // Ocultar el video
+                if (cameraVideo) {
+                    cameraVideo.style.display = 'none';
+                }
+
+                // Si NO se capturó ninguna foto y el input de archivo está vacío, restauramos el ícono original
+                if (!capturedBlob && (!newPhotoInput.files || newPhotoInput.files.length === 0)) {
+                    resetNewPhoto();
+                }
             }
 
             function stopCamera() {
@@ -788,6 +820,10 @@
                                 updateInputFromBlob(blob);
                                 const url = URL.createObjectURL(blob);
                                 showNewPhoto(url);
+                                
+                                // Agregar esta línea para ocultar el video tras tomar la foto
+                                if (cameraVideo) cameraVideo.style.display = 'none'; 
+                                
                                 acceptButton.disabled = false;
                             }
                         }, 'image/jpeg', 0.95);
