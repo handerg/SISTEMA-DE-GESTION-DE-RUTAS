@@ -155,7 +155,7 @@
 
                         <div>
                             <label for="new-foto_perfil" class="block text-sm font-medium text-slate-700 mb-2">Foto de perfil</label>
-                            <label for="new-foto_perfil" id="new-dropzone" class="photo-dropzone border-2 border-dashed border-slate-300 rounded-[1.5rem] flex flex-col items-center justify-center gap-3 text-slate-400 hover:border-blue-500 hover:text-blue-500 transition cursor-pointer bg-slate-50">
+                            <label for="new-foto_perfil" id="new-dropzone" class="photo-dropzone border-2 border-dashed border-slate-300 flex flex-col items-center justify-center gap-3 text-slate-400 hover:border-blue-500 hover:text-blue-500 transition cursor-pointer bg-slate-50">
                                 <svg id="dropzone-icon" class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                                 <div class="photo-preview" id="new-photo-preview">
                                     <span>Arrastra la imagen aquí o haz click</span>

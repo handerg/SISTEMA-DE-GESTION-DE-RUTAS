@@ -29,10 +29,6 @@ class ControllerConductores extends Controller
             }
         }
 
-        if ($tipoSangre = $request->query('tipo_sangre')) {
-            $query->where('tipo_sangre', $tipoSangre);
-        }
-
         if ($tipoLicencia = $request->query('tipo_licencia')) {
             $query->where('tipo_licencia', $tipoLicencia);
         }
@@ -51,7 +47,6 @@ class ControllerConductores extends Controller
             'autos' => Auto::all(),
             'search' => $search,
             'status' => $status,
-            'tipo_sangre' => $tipoSangre,
             'tipo_licencia' => $tipoLicencia,
             'auto_id' => $autoId,
         ]);

@@ -53,8 +53,9 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class, 'role_id', 'id_rol');
     }
 
-    public function isAdmin(): bool
+    public function isAdmin()
     {
+        // Asumiendo que tu relación se llama 'role' y el campo es 'nombre_rol'
         return $this->role?->nombre_rol === 'administrador';
     }
 
