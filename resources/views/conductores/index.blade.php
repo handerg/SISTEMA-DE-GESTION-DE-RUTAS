@@ -456,7 +456,7 @@
         .section-header h2 { margin:0; font-size:1.75rem; color:#0f172a; }
         .section-header p { margin:0.35rem 0 0; color:#475569; }
         .filter-panel { margin-top:0rem; display:grid; gap:0.75rem; width:100%; padding:0; border-radius:0; background:transparent; border:none; }
-        .filter-form { display:grid; gap:0.75rem; grid-template-columns: minmax(210px, 1.8fr) minmax(110px, 0.95fr) minmax(110px, 0.95fr) minmax(110px, 0.95fr) minmax(120px, 1fr) minmax(110px, 0.85fr); align-items:end; width:100%; }
+        .filter-form { display:grid; gap:0.75rem; grid-template-columns: minmax(400px, 1.8fr) minmax(90px, 0.95fr) minmax(90px, 0.95fr) minmax(90px, 0.95fr) minmax(90px, 1fr); align-items:end; width:100%; }
         .filter-group { padding:0; border-radius:0; background:transparent; border:none; }
         .filter-form label { margin-bottom:0.35rem; color:#334155; display:block; font-size:0.95rem; }
         .filter-input { width:100%; height:3rem; padding:0 0.85rem; border:1px solid #cbd5e1; border-radius:1rem; background:#fff; color:#0f172a; }
